@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>La vecchina</title>
+
+<style>
+html,body{margin:0;height:100%;font-family:sans-serif}
+
+#scene{position:relative;height:100vh}
+
+.bg{width:100%;height:100%;object-fit:cover}
+
+.hotspot {position: absolute; cursor: pointer; opacity: 0; transition: opacity 0.3s ease;}
+
+.dipendente {left: 55%; top: 45%; width: 25%; opacity: 1;}
+
+.lorenzo {right: 55%; top: 45%; width: 25%; opacity: 1;}
+
+.textbox{position:absolute;bottom:20px;left:50%; transform:translateX(-50%); width:90%;max-width:800px; background:rgba(255,255,255,.75); padding:20px;border-radius:16px}
+
+.name{font-weight:bold;color:#7a4bc2;margin-bottom:6px}
+
+.text{min-height:60px}
+
+.choices button{margin-top:10px; padding:8px 14px; border:none;border-radius:8px; background:#bfa3dd;color:white;cursor:pointer}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="scene">
+  <img class="bg" src="../img/supermercato.png">
+
+<img class="hotspot lorenzo" src="../img/lorenzo.png">
+
+<img class="hotspot dipendente" src="../img/dipendente.png">
+
+  <div class="textbox">
+    <div class="name" id="name"></div>
+    <div class="text" id="text"></div>
+    <div class="choices" id="choices"></div>
+  </div>
+</div>
+
+<script>
+const dialoghi = [
+  {nome:"Dipendente", testo:"Ti prego non chiedermi dove si trova nulla"},
+  {nome:"Dipendente", testo:"Ho iniziato a lavorare qui soltanto da 2 ore"},
+  {nome:"Dipendente", testo:"Il massimo che posso indicarti è l'uscita"},
+  {scelta:true}
+];
+
+let i=0;
+const name=document.getElementById("name");
+const text=document.getElementById("text");
+const choices=document.getElementById("choices");
+
+function mostra(){
+  text.textContent=""; choices.innerHTML="";
+  const d=dialoghi[i];
+  if(!d)return;
+
+  if(d.scelta){
+    choices.innerHTML=`
+      <button onclick="location.href='esterno.html'">Esci dal supermercato</button>
+      <button onclick="location.href='supermercato.html'">Rimani nel supermercato</button>
+    `;
+    return;
+  }
+
+  name.textContent=d.nome;
+  text.textContent=d.testo;
+}
+
+document.querySelector(".textbox").onclick=()=>{
+  if(i<dialoghi.length-1){i++;mostra();}
+};
+
+mostra();
+</script>
+
+</body>
+</html>
